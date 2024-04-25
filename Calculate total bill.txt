@@ -1,0 +1,29 @@
+This code is for a MicroPython program designed to simulate a power consumption monitoring system. Let's break down the functionalities and the overall flow of the code:
+
+Imports and Initialization:
+	The code begins with importing necessary modules such as random, machine for hardware control, utime for timing functions, and uos for interacting with the filesystem.
+It initializes the I2C bus using SoftI2C and defines the address for an RTC module.
+It attempts to mount the LittleFS filesystem and prints success or failure messages accordingly.
+
+Helper Functions:
+	read_rtc_time(): Reads the current time from the RTC module.
+	bcd_to_decimal(bcd_value): Converts binary-coded decimal (BCD) to decimal format.
+	calculate_price(power): Calculates the price based on power consumption in watts.
+
+Variables Initialization:
+	Constants for current and price per unit are defined.
+	Variables for counters and price sums are initialized.
+
+Main Loop:
+	Inside an infinite loop, the program does the following:
+	Generates a random power consumption value between 750 and 2500 watts.
+	Reads the current time from the RTC.
+	Calculates the price based on the power consumption.
+	Writes the time, power consumption, and price to a file named "data.txt".
+	Increments the seconds counter and adds the price to the minute price sum.
+	Creates a minute file every 60 seconds, containing the sum of prices for that minute and resets the minute price sum.
+		- Creates an hour file every 3600 seconds (1 hour), containing the sum of prices for that hour and resets the hour price sum.
+		- Clears the "data.txt" file and removes minute files after each hour.
+		- Sleeps for 1 second before repeating the loop.
+
+This code essentially simulates a system that monitors power consumption, calculates the price based on the power consumed, and logs the data periodically into files, organizing them into minute and hour summaries. It also clears the data and minute files after each hour to keep the storage manageable.
